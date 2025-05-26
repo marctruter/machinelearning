@@ -14,7 +14,7 @@ Suppose that we want to build a model that allows us to classify data into two c
 <div align="center">
 <img src="data.png" alt="Some points in the plane" height="350" >
 </div>
-<div style="height: 30px;"></div>
+<div style="height: 50px;"></div>
 
 
 
@@ -27,14 +27,14 @@ Indeed, just by considering $\{x_1^2,x_2^2\}$, we can easily see that the data c
 <div align="center">
 <img src="classification_lines.png" alt="The points can be separated by a line" height="300" >
 </div>
-<div style="height: 30px;"></div>
+<div style="height: 50px;"></div>
 
 
 Now, this line corresponds to a conic in the original space, which separates our original data:
 <div align="center">
-<img src="classification_circles.png" alt="The points can be separated by a line" height="300" >
+<img src="classification_circles.png" alt="The points can be separated by a line" height="350" >
 </div>
-<div style="height: 30px;"></div>
+<div style="height: 50px;"></div>
 
 
 This idea of mapping the data into a higher-dimensional space is the essence of kernel methods. In the exercise session, we will see how to implement them in practice using the `sklearn` library. But let's first explain the theory behind the kernel approach.
@@ -66,7 +66,7 @@ From the discussion above, we saw that we can reduce non-linear problems to line
 <ul>
 <li> 
 
-We often do not know how to choose a good feature map $\varphi$ and we may need to try several different ones before finding one that works well.
+We often do not know how to choose a good feature map $\varphi$ and we may need to try several ones before finding one that works well.
 </li>
 
 <li> 
@@ -111,7 +111,7 @@ This what is known as the **kernel trick**: instead of working with the feature 
 
 As a matter of fact, we can forget about the feature map $\varphi$ altogether and just work with the kernel function $k$, for the following reason:
 
- We say that a kernel function $k$ is **positive definite**, if for any finite set of points $x_1,\dots,x_n\in\mathcal{X}$, the matrix $K$ restricted to those points is symmetric positive semi-definite. Then, we have the following theorem:
+ We say that a kernel function $k$ is **positive definite**, if for any finite set of points $x_1,\dots,x_n\in\mathcal{X}$, the matrix $K$ restricted to those points is symmetric positive semi-definite. Then, we have this theorem:
 
 <hr>
 
@@ -122,9 +122,9 @@ kernel if and only if there exists a Hilbert space $\mathcal{H}$ and a function 
 <div style="height: 30px;"></div>
 
 
-Therefore, the existence of a kernel function $k$ is equivalent to the existence of a feature map $\varphi$ in some Hilbert space. For any positive-definite kernel $k$, the space that we build from the kernel is called the **reproducing kernel Hilbert space (RHKS)**. 
+Therefore, the existence of a kernel function $k$ is equivalent to the existence of a feature map $\varphi$ in some Hilbert space. For any positive-definite kernel $k$, the space that we build from the kernel is called the **reproducing kernel Hilbert space (RKHS)**. 
 
-There are many other reasons why working with kernels is useful, including the fact that there are very efficient algorithms to compute kernels and solve the optimisation problem.
+There are many other reasons why working with kernels is useful, including the fact that there are very efficient algorithms to compute kernels and solve their optimisation problem.
 
 ## Examples of kernels
 There are many different kernels that can be used in practice. 
@@ -135,7 +135,7 @@ Some of the most common ones are:
 **Linear kernel**: $k(x,x')=x^\top x'$, $\forall x,x'\in\mathcal{X}\subseteq\mathbb{R}^d$. 
 
 Here, the kernel trick
-can be useful when the input data have huge dimension $d$ but are quite sparse, such as in text processing. </li>
+can be useful when the input data have huge dimension $d$, but is quite sparse, such as in text processing. </li>
 
 
 <li>
@@ -152,11 +152,18 @@ can be useful when the input data have huge dimension $d$ but are quite sparse, 
 
 <li>
 
+**Radial basis function (RBF) kernel**: $k(x,x')=\exp\left(-\gamma\lVert x-x'\rVert^2\right)$, $\forall x,x'\in\mathcal{X}\subseteq\mathbb{R}^d$.
+
+This kernel is also known as the Gaussian kernel, and it is particularly useful in many applications, such as image processing and natural language processing. The parameter $\gamma>0$ controls the boundary of the decision region, in the sense that as gamma grows, the boundary becomes more complex and can fit the data better, but it also increases the risk of overfitting.</li>
+
+<li>
+
+
 **Translation invariant kernels**: $k(x,x')=q(x-x')$, $\forall x,x'\in[0,1]$.  
 
-Here the idea is that the space of square integrable functions on $[0,1]$ is a Hilbert space with the inner product given by $\langle f,g\rangle=\int_0^1 f(x)g(x)\,dx$. An orthonormal basis of $L_2([0, 1])$ is given by the functions $\sin(2\pi m x)$ and $\cos(2\pi n x)$, for $m,n\in\mathbb{N}$, and we can study many aspects of $q(x)$ from the perspective of Fourier analysis. These kernels are particularly useful in time series analysis, where we can use them to study periodic phenomena (e.g., weather patterns, seasonal financial trends...)
+The idea behind this class of kernels is that the space of square-integrable functions on $[0,1]$ is a Hilbert space with the inner product given by $\langle f,g\rangle=\int_0^1 f(x)g(x)\,dx$. An orthonormal basis of $L_2([0, 1])$ is given by the functions $\sin(2\pi m x)$ and $\cos(2\pi n x)$ for $m,n\in\mathbb{N}$, and we can study many aspects of $q(x)$ from the perspective of Fourier analysis. These kernels are particularly useful in time series analysis, where we can use them to study periodic phenomena (e.g., weather patterns, seasonal financial trends...)
 </li>
 </ul>
 
-We will not go into the details of how to compute these kernels, but we will see how to use them in practice in the exercise session.
+We will see how to work with some of these kernels in practice in the exercise session.
 
