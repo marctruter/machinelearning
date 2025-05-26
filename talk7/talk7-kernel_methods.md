@@ -154,7 +154,7 @@ can be useful when the input data have huge dimension $d$, but is quite sparse, 
 
 **Radial basis function (RBF) kernel**: $k(x,x')=\exp\left(-\gamma\lVert x-x'\rVert^2\right)$, $\forall x,x'\in\mathcal{X}\subseteq\mathbb{R}^d$.
 
-This kernel is also known as the Gaussian kernel, and it is particularly useful in many applications, such as image processing and natural language processing. The parameter $\gamma>0$ controls the boundary of the decision region, in the sense that as gamma grows, the boundary becomes more complex and can fit the data better, but it also increases the risk of overfitting.</li>
+This kernel is also known as the **Gaussian kernel**, and it is particularly useful in many applications, such as image processing and natural language processing. The parameter $\gamma>0$ controls the boundary of the decision region, in the sense that as $\gamma$ grows, the boundary becomes more complicated and can fit the data better, but it also increases the risk of overfitting.</li>
 
 <li>
 
