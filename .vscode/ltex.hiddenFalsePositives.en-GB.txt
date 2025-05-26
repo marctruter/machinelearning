@@ -1,0 +1,1 @@
+{"rule":"OXFORD_SPELLING_Z_NOT_S","sentence":"^\\QSolving the optimisation problem above can be computationally expensive, especially if the input data has very large dimension.\\E$"}
