@@ -58,7 +58,7 @@ $$\begin{align*}
 and the function we are trying to learn is $f_\theta(x_1,x_2)=\theta_1 x_1^2 + \theta_2 x_2^2+\theta_3$, for some parameters $\theta_1,\theta_2,\theta_3\in\mathbb{R}$. If we denote by $(x_i,y_i)$ our data, we can write $f_\theta(x_i)$ in terms of the usual inner product as $f_\theta(x_i)=\langle\theta, \varphi(x_i)\rangle$. We would like to find the parameter $\theta=(\theta_1,\dots,\theta_m)\in\mathbb{R}^m$ that minimises what is known as the **empirical risk**:
 
 $$\begin{align}
-\frac{1}{n}\sum_{i=1}^n \ell(y_i,\langle\theta, \varphi(x_i)\rangle)+\frac{\lambda}{2}\lVert \theta\rVert^2 \end{align}$$
+\frac{1}{n}\sum_{i=1}^n \ell(y_i,\langle\theta, \varphi(x_i)\rangle)+\frac{\lambda}{2}\lVert \theta\rVert^2 \tag{1} \end{align}$$
 
 The first term of this expression represents how close the $f_\theta(x_i)$ are to the correct values in our training data, whereas $\frac{\lambda}{2}\lVert \theta\rVert^2$ is a regularization term that prevents overfitting by penalizing large values of the parameter $\theta$. We can use linear regression to find the parameter $\theta$ that minimises this expression.
 
@@ -70,7 +70,7 @@ From the discussion above, we saw that we can reduce non-linear problems to line
 
 To model mathematically how it is to work with very high dimensional data, we can use Hilbert spaces. Recall that a **Hilbert space** is a vector space (possibly of infinite dimension) with an inner product space that is complete with respect to the norm induced by the inner product.
 
-Assume that $\mathcal{X}$ is a subset of a Hilbert space $\mathcal{H}$, rather than $\mathbb{R}^d$ and that the feature map $\varphi$ is then a function that maps the input space $\mathcal{X}$ to $\mathcal{H}$. One would imagine that solving the optimisation problem given by $(1)$ in this setting is now even more difficult, as we may be working in a space with infinite dimension. But there is a theorem that guarantees that the difficulty of the problem only depends on the number of elements in our training data, not on the size of the input space $\mathcal{X}$:
+Assume that the feature map $\varphi$ now takes values in $\mathcal{H}$ rather than $\mathbb{R}^{m}$. One would imagine that solving the optimisation problem given by $(1)$ in this setting is now even more difficult, as we may be working in a space with infinite dimension. But there is a theorem that guarantees that the difficulty of the problem only depends on the number of elements in our training data, not on the size of the input space $\mathcal{X}$:
 
 <hr>
 
@@ -88,12 +88,12 @@ where $\alpha=(\alpha_1,\dots,\alpha_n)\in\mathbb{R}^n$.
 <div style="height: 30px;"></div>
 
 
-Now, let us define the **kernel function** $k$ to be 
+Now, let us define the **kernel function** $k$ induced by the feature map $\varphi$ to be 
 
 $$\begin{align*}k:\mathcal{X}\times\mathcal{X}&\longrightarrow\mathbb{R}\\
 (x,x')&\longmapsto\langle \varphi(x),\varphi(x')\rangle \end{align*}$$
 
-Let $K$ be the **kernel matrix** whose entries are given by $K_{ij}=k(x_i,x_j)$. Then, if we have $\theta=\sum_{i=1}^n \alpha_i \varphi(x_i)$,
+Let $K \in \mathbb{R}^{n \times n}$ be the **kernel matrix** whose entries are given by $K_{ij}=k(x_i,x_j)$. Then, if we have $\theta=\sum_{i=1}^n \alpha_i \varphi(x_i)$,
 
 $$\langle\theta, \varphi(x_j)\rangle=\sum_{i=1}^n \alpha_i k(x_i,x_j)=(K\alpha)_j$$
 
@@ -109,7 +109,7 @@ This what is known as the **kernel trick**: instead of working with the feature 
 
 As a matter of fact, we can forget about the feature map $\varphi$ altogether and just work with the kernel function $k$, for the following reason:
 
- We say that a kernel function $k$ is **positive definite**, if for any finite set of points $x_1,\dots,x_n\in\mathcal{X}$, the matrix $K$ restricted to those points is symmetric positive semi-definite. Then, we have this theorem:
+ We say that a function $k \colon \mathcal{X} \times \mathcal{X} \to \mathbb{R}$ is a **positive-definite kernel** if, for any finite set of points $x_1,\dots,x_n\in\mathcal{X}$, the kernel matrix $K$ restricted to those points is symmetric positive semi-definite. Then, we have this theorem:
 
 <hr>
 
