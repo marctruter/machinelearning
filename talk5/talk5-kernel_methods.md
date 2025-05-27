@@ -57,8 +57,9 @@ $$\begin{align*}
 
 and the function we are trying to learn is $f_\theta(x_1,x_2)=\theta_1 x_1^2 + \theta_2 x_2^2+\theta_3$, for some parameters $\theta_1,\theta_2,\theta_3\in\mathbb{R}$. If we denote by $(x_i,y_i)$ our data, we can write $f_\theta(x_i)$ in terms of the usual inner product as $f_\theta(x_i)=\langle\theta, \varphi(x_i)\rangle$. We would like to find the parameter $\theta=(\theta_1,\dots,\theta_m)\in\mathbb{R}^m$ that minimises what is known as the **empirical risk**:
 
-$$\begin{align}
-\frac{1}{n}\sum_{i=1}^n \ell(y_i,\langle\theta, \varphi(x_i)\rangle)+\frac{\lambda}{2}\lVert \theta\rVert^2 \tag{1} \end{align}$$
+$$
+\begin{align*} \frac{1}{n}\sum_{i=1}^n \ell(y_i,\langle\theta, \varphi(x_i)\rangle)+\frac{\lambda}{2}\lVert \theta\rVert^2 &&(1) \end{align*}
+$$
 
 The first term of this expression represents how close the $f_\theta(x_i)$ are to the correct values in our training data, whereas $\frac{\lambda}{2}\lVert \theta\rVert^2$ is a regularization term that prevents overfitting by penalizing large values of the parameter $\theta$. We can use linear regression to find the parameter $\theta$ that minimises this expression.
 
