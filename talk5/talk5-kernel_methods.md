@@ -1,4 +1,4 @@
-# Kernel methods
+# Talk 5: Kernel methods
 ### [Alvaro Gonzalez Hernandez](https://alvarogohe.github.io/), 27th May 2025
 
 Kernel methods are a powerful set of techniques in machine learning that are used for building non-linear prediction models.
@@ -11,6 +11,7 @@ Kernels provide a way to solve non-linear problems by transforming them into equ
 A very illustrative example is the following:
 
 Suppose that we want to build a model that allows us to classify data into two categories, and we have the following training data:
+
 <div align="center">
 <img src="data.png" alt="Some points in the plane" height="350" >
 </div>
@@ -41,11 +42,11 @@ This idea of mapping the data into a higher-dimensional space is the essence of 
 
 ## Theoretical background
 
-As in the past, let $(x_i,y_i)\in\mathcal{X}\times\mathcal{Y}$ be a set of training data of size $n$, where $\mathcal{X}\subseteq\mathbb{R}^d$ is the input space and $\mathcal{Y}$ is the output space. Our goal is to learn a function $f:\mathcal{X}\to\mathcal{Y}$ that approximates the relationship between the inputs and outputs. 
+As in the past, let $(x_i,y_i)\in\mathcal{X}\times\mathcal{Y}$ be a set of training data of size $n$, where $\mathcal{X}\subseteq\mathbb{R}^d$ is the input space and $\mathcal{Y}$ is the output space. Our goal is to learn a function $f\colon\mathcal{X}\to\mathcal{Y}$ that approximates the relationship between the inputs and outputs. 
 
-For today's talk, we will focus on the case where $\mathcal{Y}=\{-1,1\}$, which is the case of binary classification. As $\mathcal{Y}$ is discrete, what we do instead is that we learn a function $f_\theta:\mathcal{X}\to\mathbb{R}$ and then, we set $f(x)=\text{sign}(f_\theta(x))$. This function $f_\theta$ is called the **prediction function**, and we will assume that it is a linear function on some parameters $\{\theta_1,\dots,\theta_m\}$. Assume we also have a **loss function** $\ell:\mathcal{Y}\times\mathbb{R}\to\mathbb{R}$ that measures how well the prediction function $f_\theta$ fits the data. For example, we can consider the square loss $\ell(y,f_\theta(x))=(y-f_\theta(x))^2$.
+For today's talk, we will focus on the case where $\mathcal{Y}=\{-1,1\}$, which is the case of binary classification. As $\mathcal{Y}$ is discrete, what we do instead is that we learn a function $f_\theta\colon\mathcal{X}\to\mathbb{R}$ and then, we set $f(x)=\text{sign}(f_\theta(x))$. This function $f_\theta$ is called the **prediction function**, and we will assume that it is a linear function on some parameters $\{\theta_1,\dots,\theta_m\}$. Assume we also have a **loss function** $\ell\colon\mathcal{Y}\times\mathbb{R}\to\mathbb{R}$ that measures how well the prediction function $f_\theta$ fits the data. For example, we can consider the square loss $\ell(y,f_\theta(x))=(y-f_\theta(x))^2$.
 
-Let us now choose a function $\varphi:\mathcal{X}\rightarrow\mathbb{R}^m$ that maps the input space $\mathcal{X}$ to a different space $\mathbb{R}^m$. This is what we will call the **feature map**.
+Let us now choose a function $\varphi\colon\mathcal{X}\rightarrow\mathbb{R}^m$ that maps the input space $\mathcal{X}$ to a different space $\mathbb{R}^m$. This is what we will call the **feature map**.
 
 Going back to our example, there, we defined the feature map to be
 
@@ -63,17 +64,9 @@ The first term of this expression represents how close the $f_\theta(x_i)$ are t
 
 ## Introducing kernels
 From the discussion above, we saw that we can reduce non-linear problems to linear ones by using a feature map $\varphi$.  In practice, there are two issues with this approach:
-<ul>
-<li> 
 
-We often do not know how to choose a good feature map $\varphi$ and we may need to try several ones before finding one that works well.
-</li>
-
-<li> 
-
-Solving the optimisation problem above can be computationally expensive, especially if the input data has very large dimension. This is something common in many problems, particularly, when we have very sparsely populated data. 
-</li>
-</ul>
+- We often do not know how to choose a good feature map $\varphi$ and we may need to try several ones before finding one that works well.
+- Solving the optimisation problem above can be computationally expensive, especially if the input data has very large dimension. This is something common in many problems, particularly, when we have very sparsely populated data. 
 
 To model mathematically how it is to work with very high dimensional data, we can use Hilbert spaces. Recall that a **Hilbert space** is a vector space (possibly of infinite dimension) with an inner product space that is complete with respect to the norm induced by the inner product.
 
@@ -101,10 +94,15 @@ $$\begin{align*}k:\mathcal{X}\times\mathcal{X}&\longrightarrow\mathbb{R}\\
 (x,x')&\longmapsto\langle \varphi(x),\varphi(x')\rangle \end{align*}$$
 
 Let $K$ be the **kernel matrix** whose entries are given by $K_{ij}=k(x_i,x_j)$. Then, if we have $\theta=\sum_{i=1}^n \alpha_i \varphi(x_i)$,
+
 $$\langle\theta, \varphi(x_j)\rangle=\sum_{i=1}^n \alpha_i k(x_i,x_j)=(K\alpha)_j$$
+
 and
+
 $$\lVert\theta\rVert^2=\sum_{i=1}^n\sum_{j=1}^n\alpha_i\alpha_j\langle\varphi(x_i),\varphi(x_j)\rangle=\alpha^\top K \alpha $$
+
 so that we can rewrite the optimisation problem as
+
 $$\inf_{\theta\in\mathcal{H}}\frac{1}{n}\sum_{i=1}^n \ell(y_i,\langle\theta, \varphi(x_i)\rangle)+\frac{\lambda}{2}\lVert \theta\rVert^2=\inf_{\alpha\in\mathbb{R}^n}\frac{1}{n}\sum_{i=1}^n \ell(y_i,(K\alpha)_i)+\frac{\lambda}{2}\alpha^\top K \alpha$$
 
 This what is known as the **kernel trick**: instead of working with the feature map $\varphi$, we can work directly with the kernel matrix $K$. This allows us to work with high-dimensional data without having to explicitly compute the feature map $\varphi$. 
